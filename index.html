@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple Easy Games</title>
+    <meta name="description" content="A fresh, spunky landing page for Gorillas, City Defender, and Gravity Ball Drop.">
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #16122b;
+        --ink-muted: #4b4466;
+        --sky: #f5f0e9;
+        --sunset: #ffb16a;
+        --lime: #b7ff3c;
+        --teal: #2d8a78;
+        --rose: #ff6b6b;
+        --violet: #6b5cff;
+        --card: #ffffff;
+        --shadow: 0 24px 60px rgba(13, 10, 31, 0.12);
+        --radius: 28px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "Futura", "Gill Sans", "Trebuchet MS", sans-serif;
+        color: var(--ink);
+        background: radial-gradient(circle at top, #fff4df 0%, #f9f7f2 42%, #f1f6ff 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255, 177, 106, 0.3), rgba(107, 92, 255, 0.15), rgba(45, 138, 120, 0.12));
+        mix-blend-mode: multiply;
+        opacity: 0.4;
+        pointer-events: none;
+      }
+
+      .page {
+        position: relative;
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 48px 24px 96px;
+      }
+
+      header {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        align-items: center;
+        margin-bottom: 48px;
+      }
+
+      .hero-title {
+        font-size: clamp(2.6rem, 4vw, 4rem);
+        line-height: 1.05;
+        margin: 0 0 12px;
+      }
+
+      .hero-title span {
+        display: inline-block;
+        padding: 4px 12px;
+        background: var(--lime);
+        border-radius: 999px;
+        transform: rotate(-2deg);
+      }
+
+      .hero-subtitle {
+        font-size: 1.1rem;
+        color: var(--ink-muted);
+        margin: 0;
+      }
+
+      .hero-panel {
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 28px;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(22, 18, 43, 0.08);
+      }
+
+      .hero-panel h2 {
+        margin: 0 0 12px;
+        font-size: 1.4rem;
+      }
+
+      .hero-panel p {
+        margin: 0 0 16px;
+        color: var(--ink-muted);
+      }
+
+      .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .pill {
+        background: rgba(107, 92, 255, 0.12);
+        color: var(--violet);
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+
+      main {
+        display: grid;
+        gap: 24px;
+      }
+
+      .card {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 24px;
+        background: var(--card);
+        border-radius: var(--radius);
+        padding: 28px;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(22, 18, 43, 0.08);
+        position: relative;
+        overflow: hidden;
+        animation: rise 0.7s ease forwards;
+        animation-delay: var(--delay, 0s);
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: -20% 65% auto -20%;
+        height: 140%;
+        background: radial-gradient(circle, rgba(183, 255, 60, 0.35), transparent 70%);
+        opacity: 0.7;
+      }
+
+      .card.highlight {
+        border: 2px solid rgba(183, 255, 60, 0.7);
+        background: linear-gradient(120deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8));
+      }
+
+      .card.highlight .tag {
+        background: var(--lime);
+        color: #2a2a2a;
+      }
+
+      .card-media {
+        position: relative;
+        border-radius: 22px;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgba(107, 92, 255, 0.1), rgba(255, 107, 107, 0.2));
+        padding: 16px;
+        z-index: 1;
+      }
+
+      .card-media img {
+        width: 100%;
+        border-radius: 16px;
+        display: block;
+        background: #f0f2f7;
+        border: 1px dashed rgba(22, 18, 43, 0.2);
+        min-height: 220px;
+        object-fit: cover;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(255, 107, 107, 0.15);
+        color: var(--rose);
+      }
+
+      .card h3 {
+        margin: 12px 0 10px;
+        font-size: clamp(1.6rem, 2.3vw, 2.2rem);
+      }
+
+      .card p {
+        margin: 0 0 18px;
+        color: var(--ink-muted);
+        line-height: 1.6;
+      }
+
+      .feature-list {
+        display: grid;
+        gap: 10px;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+
+      .feature-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+
+      .feature-list span {
+        font-size: 1.1rem;
+      }
+
+      .store-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 20px;
+      }
+
+      .store-badge {
+        height: 60px;
+        width: 200px;
+        border-radius: 12px;
+        border: 1px dashed rgba(22, 18, 43, 0.25);
+        background: #f0f2f7;
+        object-fit: cover;
+      }
+
+      .footer-note {
+        margin-top: 32px;
+        text-align: center;
+        color: var(--ink-muted);
+        font-size: 0.95rem;
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 920px) {
+        header {
+          grid-template-columns: 1fr;
+        }
+
+        .card {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .card {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <div>
+          <h1 class="hero-title">Simple, fast, and a little <span>spunky</span>.</h1>
+          <p class="hero-subtitle">Three quick-hit iOS games, each with its own flavor of chaos. Jump in, chase high scores, and show off your reflexes.</p>
+        </div>
+        <div class="hero-panel">
+          <h2>Play. Replay. Brag.</h2>
+          <p>Designed for instant fun with smart depth: polished controls, clear goals, and bite-sized rounds that always leave you wanting one more try.</p>
+          <div class="hero-meta">
+            <div class="pill">Quick Sessions</div>
+            <div class="pill">Offline Friendly</div>
+            <div class="pill">Skill-Based</div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="card highlight" style="--delay: 0.05s;">
+          <div class="card-media">
+            <img src="images/gorillas-hero.png" alt="Gorillas gameplay placeholder image">
+          </div>
+          <div>
+            <div class="tag">Featured · Gorillas</div>
+            <h3>Gorillas</h3>
+            <p>Line up your banana arc, feel the wind tug your aim, and send your gorilla into the city skyline showdown. It is a precision duel with just enough chaos to make every round legendary.</p>
+            <ul class="feature-list">
+              <li><span>🍌</span> Angle + velocity controls for pin-point trick shots.</li>
+              <li><span>🎏</span> Wind shifts mid-flight, so every throw is a new puzzle.</li>
+              <li><span>🏆</span> Challenge streaks unlock new gorilla colors and banana styles.</li>
+            </ul>
+            <div class="store-row">
+              <img class="store-badge" src="images/app-store-badge.png" alt="App Store badge placeholder">
+              <img class="store-badge" src="images/play-store-badge.png" alt="Google Play badge placeholder">
+            </div>
+          </div>
+        </section>
+
+        <section class="card" style="--delay: 0.15s;">
+          <div class="card-media">
+            <img src="images/city-defender.png" alt="City Defender gameplay placeholder image">
+          </div>
+          <div>
+            <div class="tag">City Defender</div>
+            <h3>City Defender</h3>
+            <p>Hold the skyline. Command three launchers, trace perfect intercepts, and keep the city glowing through day and night. One slip and those buildings turn to rubble.</p>
+            <ul class="feature-list">
+              <li><span>🚀</span> Triple-launcher taps for synchronized missile volleys.</li>
+              <li><span>🌙</span> Dynamic day/night skies with vivid explosions and sound.</li>
+              <li><span>⏱️</span> 60-second waves that ramp speed and intensity every five levels.</li>
+            </ul>
+            <div class="store-row">
+              <img class="store-badge" src="images/app-store-badge.png" alt="App Store badge placeholder">
+              <img class="store-badge" src="images/play-store-badge.png" alt="Google Play badge placeholder">
+            </div>
+          </div>
+        </section>
+
+        <section class="card" style="--delay: 0.25s;">
+          <div class="card-media">
+            <img src="images/gravity-ball-drop.png" alt="Gravity Ball Drop gameplay placeholder image">
+          </div>
+          <div>
+            <div class="tag">Gravity Ball Drop</div>
+            <h3>Gravity Ball Drop</h3>
+            <p>Tap to bounce a swarm of gravity-hungry balls and survive the countdown. Every level cranks the pull and adds more chaos to the mix.</p>
+            <ul class="feature-list">
+              <li><span>🎾</span> Tap anywhere to boost every ball in play.</li>
+              <li><span>⚡</span> Faster timers and stronger gravity as you level up.</li>
+              <li><span>➕</span> A new ball joins the party every five levels.</li>
+            </ul>
+            <div class="store-row">
+              <img class="store-badge" src="images/app-store-badge.png" alt="App Store badge placeholder">
+              <img class="store-badge" src="images/play-store-badge.png" alt="Google Play badge placeholder">
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <p class="footer-note">More arcade sparks coming soon. Stay tuned for new challenges and surprises.</p>
+    </div>
+  </body>
+</html>
